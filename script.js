@@ -271,56 +271,108 @@ const journalEntries = [
   },
 ]
 
+// Initialize Page
+function initializePage() {
+  renderJournalEntries(journalEntries)
+  setupEventListeners()
+  updateYear()
+}
+
 // Render Journal Entries
-const journalGrid = document.getElementById("journalGrid")
-if (journalGrid) {
-  journalEntries.forEach((entry) => {
+function renderJournalEntries(entries) {
+  const journalGrid = document.getElementById("journalGrid")
+  if (!journalGrid) return
+
+  journalGrid.innerHTML = ''
+
+  entries.forEach((entry) => {
     const card = document.createElement("a")
     card.href = `entries/${entry.slug}.html`
     card.className = "journal-card"
+    card.setAttribute("data-tag", entry.tag)
     card.innerHTML = `
-            <h3>${entry.title}</h3>
-            <p class="intro">${entry.intro}</p>
-            <span class="tag">${entry.tag}</span>
-            <div class="read-more">
-                <span>Read full entry</span>
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-            </div>
-        `
+      <h3>${entry.title}</h3>
+      <p class="intro">${entry.intro}</p>
+      <span class="tag">${entry.tag}</span>
+      <div class="read-more">
+        <span>Read full entry</span>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </div>
+    `
     journalGrid.appendChild(card)
+
+    // Observe for animation
+    observer.observe(card)
   })
 }
 
-// Dynamic Year
-document.getElementById("year").textContent = new Date().getFullYear()
+// Filter Functionality
+function setupFilterButtons() {
+  const filterBtns = document.querySelectorAll(".filter-btn")
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      // Update active state
+      filterBtns.forEach((b) => b.classList.remove("active"))
+      btn.classList.add("active")
 
-// Header Scroll Effect
-const header = document.getElementById("header")
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 50) {
-    header.classList.add("scrolled")
-  } else {
-    header.classList.remove("scrolled")
-  }
-})
+      // Filter entries
+      const filter = btn.getAttribute("data-filter")
+      const filteredEntries =
+        filter === "all"
+          ? journalEntries
+          : journalEntries.filter((entry) => entry.tag === filter)
 
-// Mobile Menu Toggle
-const menuToggle = document.getElementById("menuToggle")
-const navLinks = document.getElementById("navLinks")
-menuToggle.addEventListener("click", () => {
-  navLinks.classList.toggle("active")
-})
-
-// Close menu when clicking a link
-navLinks.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => {
-    navLinks.classList.remove("active")
+      renderJournalEntries(filteredEntries)
+    })
   })
-})
+}
 
-// Intersection Observer for scroll animations
+// Setup Event Listeners
+function setupEventListeners() {
+  // Header Scroll Effect
+  const header = document.getElementById("header")
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 50) {
+      header.classList.add("scrolled")
+    } else {
+      header.classList.remove("scrolled")
+    }
+  })
+
+  // Mobile Menu Toggle
+  const menuToggle = document.getElementById("menuToggle")
+  const navLinks = document.getElementById("navLinks")
+
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active")
+      menuToggle.classList.toggle("active")
+    })
+
+    // Close menu when clicking a link
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("active")
+        menuToggle.classList.remove("active")
+      })
+    })
+
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+        navLinks.classList.remove("active")
+        menuToggle.classList.remove("active")
+      }
+    })
+  }
+
+  // Filter buttons
+  setupFilterButtons()
+}
+
+// Intersection Observer for animations
 const observerOptions = {
   threshold: 0.1,
   rootMargin: "0px 0px -50px 0px",
@@ -335,6 +387,17 @@ const observer = new IntersectionObserver((entries) => {
   })
 }, observerOptions)
 
-document.querySelectorAll(".journal-card").forEach((card) => {
-  observer.observe(card)
-})
+// Update Year in Footer
+function updateYear() {
+  const yearElement = document.getElementById("year")
+  if (yearElement) {
+    yearElement.textContent = new Date().getFullYear()
+  }
+}
+
+// Initialize when DOM is ready
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializePage)
+} else {
+  initializePage()
+}
