@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEONOR - IAS Project</title>
+    <meta name="description" content="A cybersecurity learning journey and journal by Marcques Jesreel V. Leonor. Documenting lessons from offensive/defensive security, CTF challenges, and practical explorations.">
+    <title>Marcques Jesreel V. Leonor - Cybersecurity Portfolio</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Header -->
     <header id="header">
-        <nav>
+        <nav class="navbar">
             <div class="logo">MJL</div>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home">Home</a></li>
@@ -33,13 +34,13 @@
         </div>
         <div class="hero-content">
             <div class="avatar-container">
-                <img src="https://i.imgur.com/X8GWy3h.png" alt="Marcques Jesreel Leonor" class="avatar">
+                <img src="https://i.imgur.com/X8GWy3h.png" alt="Marcques Jesreel V. Leonor" class="avatar">
                 <div class="avatar-ring"></div>
             </div>
-            <h1>Marcques Jesreel Leonor</h1>
-            <p class="subtitle">Section 4BSIT-3 | IT Elective 6</p>
+            <h1>Marcques Jesreel V. Leonor</h1>
+            <p class="subtitle">4BSIT-3 | IT Elective 6</p>
             <p class="description">
-                This is my personal cybersecurity journal. Here, I write about what I've learned, from hacking basics to defense strategies, from code to cryptography, and how each topic helped me grow as a student.
+                This is my personal cybersecurity journal—a chronicle of learning through challenges, exploration, and hands-on practice. From offensive tactics to defensive strategies, from cryptographic concepts to real-world vulnerabilities, I document my journey in the ever-evolving landscape of cybersecurity.
             </p>
             
             <div class="scroll-indicator">
@@ -50,15 +51,48 @@
         </div>
     </section>
 
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <h2 class="section-title">About This Journal</h2>
+            <div class="about-content">
+                <div class="about-card">
+                    <h3>Learning Path</h3>
+                    <p>This portfolio documents my journey through cybersecurity fundamentals, from OSINT and defensive strategies to advanced exploitation techniques and CTF challenges. Each entry represents knowledge gained and skills developed.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Methodology</h3>
+                    <p>I believe in learning through practical challenges and real-world scenarios. Each topic, from Linux administration to AD exploitation, builds upon previous knowledge to create a comprehensive security mindset.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Growth</h3>
+                    <p>Security is a continuous learning process. Through CTF competitions, lab exercises, and dedicated study, I'm developing the skills necessary to understand both attack and defense perspectives.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Journal Section -->
     <section class="journal-section" id="journal">
-        <h2 class="section-title">Journal Entries</h2>
-        <div class="journal-grid" id="journalGrid"></div>
+        <div class="journal-container">
+            <h2 class="section-title">Journal Entries</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="Linux">Linux</button>
+                <button class="filter-btn" data-filter="CTF">CTF</button>
+                <button class="filter-btn" data-filter="Web Security">Web</button>
+                <button class="filter-btn" data-filter="Cryptography">Crypto</button>
+            </div>
+            <div class="journal-grid" id="journalGrid"></div>
+        </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; <span id="year"></span> Marcques Jesreel Leonor.</p>
+        <div class="footer-content">
+            <p>&copy; <span id="year"></span> Marcques Jesreel V. Leonor. All rights reserved.</p>
+            <p class="footer-note">Documenting the cybersecurity journey | IT Elective 6</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
